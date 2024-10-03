@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "username": "johndoe",
+    "password": "$2a$10$esBzwzcb8X5m5ESNXSOB.e9FQMSsLpBloQ1aYV40Plu.tDMb5mXMG"
+  },
+  {
+    "id": 2,
+    "firstName": "test011",
+    "lastName": "Test011",
+    "username": "apirak011",
+    "password": "$2a$10$BAMAbei0vg9A6jEYOM/5hOQ0PfRkiaerk6NTbHWLMcxb/ylAT9Qva"
+  }
+]
