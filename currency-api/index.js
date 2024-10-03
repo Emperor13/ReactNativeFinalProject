@@ -1,13 +1,17 @@
 const express = require("express");
+const cors = require('cors');
 const fs = require("fs");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const app = express();
 
+
 const PORT = 3000;
 const JWT_SECRET = "your_jwt_secret_key"; 
 const USERS_FILE = "./users.json"; 
+app.use(cors());
 app.use(express.json());
+
 
 
 const readUsersFromFile = () => {
@@ -25,7 +29,7 @@ const writeUsersToFile = (users) => {
 
 
 const exchangeRates = {
-  THB: {
+  THB: { 
     USD: 0.03,
     EUR: 0.028,
     JPY: 3.5,
@@ -56,7 +60,7 @@ app.post("/register", async (req, res) => {
   }
 
   const users = readUsersFromFile();
-
+  console.log(users);
   
   const existingUser = users.find((user) => user.username === username);
   if (existingUser) {
@@ -84,7 +88,7 @@ app.post("/register", async (req, res) => {
 // Login API
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
-
+  console.log(req.body);
   if (!username || !password) {
     return res
       .status(400)
@@ -92,7 +96,7 @@ app.post("/login", async (req, res) => {
   }
 
   const users = readUsersFromFile();
-
+  console.log(users);
 
   const user = users.find((user) => user.username === username);
   if (!user) {
@@ -101,6 +105,7 @@ app.post("/login", async (req, res) => {
 
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
+  console.log("Password valid:", isPasswordValid);
   if (!isPasswordValid) {
     return res.status(400).json({ message: "Invalid credentials" });
   }
@@ -109,7 +114,8 @@ app.post("/login", async (req, res) => {
   const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, {
     expiresIn: "1h",
   });
-
+  console.log("Generated token:", token);
+  
   res.json({ message: "Login successful", token });
 });
 
@@ -138,5 +144,5 @@ app.get("/convert", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Currency Converter API is running on http://localhost:${PORT}`);
+  console.log(`Currency Converter API is running on http://172.20.10.6:${PORT}`);
 });
