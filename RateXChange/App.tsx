@@ -1,15 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Home from './components/Home';
+import React from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-export default function App() {
+//Screen Import
+import LoginScreen from "./screens/LoginScreen";
+
+//navigation import
+import { Provider } from "react-redux";
+import { store } from "./redux-toolkit/store";
+import { NavigationContainer } from "@react-navigation/native";
+
+function App() {
   return (
     <>
-      <Home/>
+      <LoginScreen />
     </>
   );
 }
 
-const styles = StyleSheet.create({
-  
-});
+const AppWrapper = () => {
+  return (
+    <Provider store={store}>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <App />
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </Provider>
+  );
+};
+export default AppWrapper;

@@ -14,4 +14,5 @@ const StyleHome = StyleSheet.create({
       },
 });
 
-export { StyleHome};
+
+export { StyleHome };

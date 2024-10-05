@@ -4,7 +4,7 @@ import { http } from "./http-service";
 export async function convertCurrencies(amout:number): Promise<AxiosResponse<any>> {
   try {
     const res = await http.get<any>(
-      `http://localhost:3000/convert?from=THB&to=USD&amount=${amout}`
+      `http://172.20.10.6:3000/convert?from=THB&to=USD&amount=${amout}`
     );
     return res;
   } catch (error) {
