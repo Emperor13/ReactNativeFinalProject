@@ -1,17 +1,96 @@
 import { StyleSheet } from "react-native";
 
 const StyleHome = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'row',
-        backgroundColor: '#3B82F6',
-        justifyContent: 'center',
-        
-      },
-      box1: {
-        backgroundColor: 'salmon',
-        padding: 10,
-      },
+  logoImage: {
+    width: 150,
+    height: 150,
+    resizeMode: "contain", // ป้องกันการบิดเบี้ยวของรูป
+    marginRight: 7
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#4A90E2",
+    paddingTop: 50,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  headerTitle: {
+    marginLeft: 35,
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  headerIcons: {
+    flexDirection: "row",
+  },
+  iconSpacing: {
+    marginLeft: 15,
+  },
+  logoContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+  },
+  logoText: {
+    color: "white",
+    fontSize: 32,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
+  convertButton: {
+    backgroundColor: "white",
+    borderRadius: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    alignSelf: "center",
+    marginVertical: 20,
+  },
+  convertButtonText: {
+    color: "#4A90E2",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  travelSection: {
+    backgroundColor: "white",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    padding: 20,
+    flex: 1,
+  },
+  picker: {
+    height: 60,
+    width: "100%",
+    marginBottom: 20,
+    fontSize: 40,
+  },
+  card: {
+    flexDirection: "row",
+    backgroundColor: "#FEF7FF", //สีการ์ด
+    borderRadius: 10,
+    marginBottom: 10,
+    padding: 10,
+    alignItems: "center",
+  },
+  cardImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 10,
+  },
+  cardTextContainer: {
+    marginLeft: 15,
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  cardDescription: {
+    fontSize: 12,
+    color: "gray",
+  },
 });
 
 const styleCurrencyRate = StyleSheet.create({
@@ -149,6 +228,5 @@ const pickerSelectStyles = {
     width: 200,
   },
 };
-
 
 export { StyleHome, styleCurrencyRate, pickerSelectStyles };
