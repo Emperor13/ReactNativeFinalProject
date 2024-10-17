@@ -7,20 +7,21 @@ export async function register(
   username: string,
   password: string
 ) {
+  console.log("Payload:", { firstName, lastName, username, password });
+  try {
   const res = await http.post("http://172.20.10.6:3000/register", {
-    firtName: firstName,
+    firstName: firstName,
     lastName: lastName,
     username: username,
     password: password,
   });
 
-  //save token to storage
-  const token = res.data.token;
-  await AsyncStorage.setItem("@token", token);
-
-  const savedToken = await AsyncStorage.getItem("@token");
-  console.log("Saved Token:", savedToken);
+  //console.log("Register Successful!");
   return res;
+  } catch (error: any) {
+    console.error("Error: ", error.response.data.message);
+    throw error; // Rethrow the error to handle it in the calling function
+  }
 }
 
 export async function login(username: string, password: string) {

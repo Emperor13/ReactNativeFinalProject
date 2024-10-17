@@ -1,37 +1,32 @@
-import { TouchableOpacity, View } from "react-native";
+import { Alert, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { Text, Card, Input, Button, Icon, Image } from "@rneui/base";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm, Controller } from "react-hook-form";
-import Login from "../components/Login";
-import { login } from "../services/Auth-service";
+
+import { register } from "../services/auth-service";
 import { AxiosError } from "../services/http-service";
 import Toast from "react-native-toast-message";
 import { useState } from "react";
-import { setislogin } from "../auth/auth-slice";
+import { setIsLogin } from "../auth/auth-slice";
 import { useAppDispatch } from "../redux-toolkit/hooks";
 
-const LoginScreen = (): React.JSX.Element => {
+const SignupScreen = (): React.JSX.Element => {
   const [showPw, setshowPw] = useState(false);
   const dispatch = useAppDispatch();
 
   //1define validate w/ yup name schemema
   const schema = yup.object().shape({
-    email: yup
-      .string()
-      .required("Please input your email")
-      .email("Email format is invalid"),
-
+    firstName: yup.string().required("Please enter your first name"),
+    lastName: yup.string().required("Please enter your last name"),
+    username: yup.string().required("Please enter your username"),
     password: yup
       .string()
       .required("Please input your PassWord")
-      .min(3, "Password must be 3 chars"),
+      .min(6, "Password must be at least 6 characters"),
     
-    username: yup
-      .string()
-      .required("Please input your PassWord")
-      .min(3, "Password must be 3 chars"),
+      
   });
   //2apply w/ reacthookform
   const {
@@ -43,14 +38,15 @@ const LoginScreen = (): React.JSX.Element => {
     mode: "all",
   });
 
-  //create on login
-  const onlogin = async (data: any) => {
+  //create on Register
+  const onRegister = async (data: any) => {
+    console.log("onRegister pressed!!");
     try {
-      const response = await login(data.email, data.password);
+      const response = await register(data.firstName, data.lastName, data.username, data.password);
       if (response.status === 200) {
-        dispatch(setislogin(true));
-        // console.log("login sucess");
-        // Toast.show({type:'success',text1:'Login Success'})
+        dispatch(setIsLogin(true));
+        Toast.show({ type: "success", text1: "Register Successful!" });
+        console.log("Register successful!");
       }
     } catch (error: any) {
       let err: AxiosError<any> = error;
@@ -75,7 +71,7 @@ const LoginScreen = (): React.JSX.Element => {
       }}
     >
       <Image
-        source={require("../assets/xlogo.png")}
+        source={require("../assets/logo.png")}
         style={{ width: 150, height: 150, padding: 20, margin: 40 }}
       />
       <Card
@@ -100,34 +96,51 @@ const LoginScreen = (): React.JSX.Element => {
         </Text>
         <View style={{ marginLeft: 20, marginRight: 20 }}>
           <Controller
-            name="username"
+            name="firstName"
             control={control}
             render={({ field: { onBlur, onChange, value } }) => (
               <Input
                 placeholder="username"
                 leftIcon={{ name: "person" }}
-                keyboardType="email-address"
+                keyboardType="default"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
-                errorMessage={errors.email?.message}
+                errorMessage={errors.firstName?.message}
               />
             )}
           />
         </View>
         <View style={{ marginLeft: 20, marginRight: 20 }}>
           <Controller
-            name="email"
+            name="lastName"
             control={control}
             render={({ field: { onBlur, onChange, value } }) => (
               <Input
-                placeholder="email"
-                leftIcon={{ name: "mail" }}
-                keyboardType="email-address"
+                placeholder="lastname"
+                leftIcon={{ name: "person" }}
+                keyboardType="default"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
-                errorMessage={errors.email?.message}
+                errorMessage={errors.lastName?.message}
+              />
+            )}
+          />
+        </View>
+        <View style={{ marginLeft: 20, marginRight: 20 }}>
+          <Controller
+            name="username"
+            control={control}
+            render={({ field: { onBlur, onChange, value } }) => (
+              <Input
+                placeholder="username"
+                leftIcon={{ name: "person" }}
+                keyboardType="default"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                errorMessage={errors.username?.message}
               />
             )}
           />
@@ -160,7 +173,7 @@ const LoginScreen = (): React.JSX.Element => {
         </View>
         <Button
           title="Sign Up"
-          onPress={handleSubmit(onlogin)}
+          onPress={handleSubmit(onRegister)}
           buttonStyle={{
             backgroundColor: "#00aaff",
             borderRadius: 25,
@@ -194,4 +207,4 @@ const LoginScreen = (): React.JSX.Element => {
   );
 };
 
-export default LoginScreen;
+export default SignupScreen;

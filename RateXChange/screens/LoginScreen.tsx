@@ -4,12 +4,11 @@ import { Text, Card, Input, Button, Icon, Image } from "@rneui/base";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm, Controller } from "react-hook-form";
-import Login from "../components/Login";
-import { login } from "../services/Auth-service";
 import { AxiosError } from "../services/http-service";
 import Toast from "react-native-toast-message";
+import { login } from "../services/auth-service";
 import { useState } from "react";
-import { setislogin } from "../auth/auth-slice";
+import { setIsLogin } from "../auth/auth-slice";
 import { useAppDispatch } from "../redux-toolkit/hooks";
 
 const LoginScreen = (): React.JSX.Element => {
@@ -18,15 +17,11 @@ const LoginScreen = (): React.JSX.Element => {
 
   //1define validate w/ yup name schemema
   const schema = yup.object().shape({
-    email: yup
-      .string()
-      .required("Please input your email")
-      .email("Email format is invalid"),
-
+    username: yup.string().required("Please enter your username"),
     password: yup
-      .string()
-      .required("Please input your PassWord")
-      .min(3, "Password must be 3 chars"),
+    .string()
+    .required("Please enter your password.")
+    .min(6, "Password must be at least 6 characters"),
   });
   //2apply w/ reacthookform
   const {
@@ -41,11 +36,11 @@ const LoginScreen = (): React.JSX.Element => {
   //create on login
   const onlogin = async (data: any) => {
     try {
-      const response = await login(data.email, data.password);
+      const response = await login(data.username, data.password);
       if (response.status === 200) {
-        dispatch(setislogin(true));
-        // console.log("login sucess");
-        // Toast.show({type:'success',text1:'Login Success'})
+        dispatch(setIsLogin(true));
+        Toast.show({ type: "success", text1: "Login Successful!" });
+        console.log("Login successful!");
       }
     } catch (error: any) {
       let err: AxiosError<any> = error;
@@ -70,7 +65,7 @@ const LoginScreen = (): React.JSX.Element => {
       }}
     >
       <Image
-        source={require("../assets/xlogo.png")}
+        source={require("../assets/logo.png")}
         style={{ width: 150, height: 150, padding: 20, margin: 40 }}
       />
       <Card
@@ -96,17 +91,17 @@ const LoginScreen = (): React.JSX.Element => {
 
         <View style={{ marginLeft: 20, marginRight: 20 }}>
           <Controller
-            name="email"
+            name="username"
             control={control}
             render={({ field: { onBlur, onChange, value } }) => (
               <Input
-                placeholder="email"
+                placeholder="username"
                 leftIcon={{ name: "person" }}
-                keyboardType="email-address"
+                keyboardType="default"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
-                errorMessage={errors.email?.message}
+                errorMessage={errors.username?.message}
               />
             )}
           />
