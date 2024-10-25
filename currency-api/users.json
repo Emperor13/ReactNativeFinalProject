@@ -1,16 +1,173 @@
 [
   {
     "id": 1,
-    "firstName": "John",
-    "lastName": "Doe",
-    "username": "johndoe",
-    "password": "$2a$10$esBzwzcb8X5m5ESNXSOB.e9FQMSsLpBloQ1aYV40Plu.tDMb5mXMG"
+    "firstName": "test01234",
+    "lastName": "1234562",
+    "username": "test0123",
+    "password": "$2a$10$ICBsi4m/pq/Q07P/BasrlevbGmvogdlqT.yLI/qTPfP9F1vFeYPH.",
+    "exchangeHistory": []
   },
   {
     "id": 2,
-    "firstName": "test011",
-    "lastName": "Test011",
-    "username": "apirak011",
-    "password": "$2a$10$BAMAbei0vg9A6jEYOM/5hOQ0PfRkiaerk6NTbHWLMcxb/ylAT9Qva"
+    "firstName": "Apirak",
+    "lastName": "chim",
+    "username": "api25",
+    "password": "$2a$10$I3K9bTohOtUIQfG9aGvT8utRvWSNbT6riirCiOjJqrLbExcjxFaUu",
+    "exchangeHistory": [
+      {
+        "from": "JPY",
+        "to": "THB",
+        "rate": 0.222,
+        "amount": "1000",
+        "result": "222.00",
+        "fromFlag": "https://flagcdn.com/w320/jp.png",
+        "toFlag": "https://flagcdn.com/w320/th.png",
+        "timestamp": "10/26/2024, 5:34:55 AM"
+      },
+      {
+        "from": "JPY",
+        "to": "THB",
+        "rate": 0.222,
+        "amount": "300",
+        "result": "66.60",
+        "fromFlag": "https://flagcdn.com/w320/jp.png",
+        "toFlag": "https://flagcdn.com/w320/th.png",
+        "timestamp": "10/26/2024, 5:37:08 AM"
+      },
+      {
+        "from": "JPY",
+        "to": "TRY",
+        "rate": 0.226,
+        "amount": "500",
+        "result": "113.00",
+        "fromFlag": "https://flagcdn.com/w320/jp.png",
+        "toFlag": "https://flagcdn.com/w320/tr.png",
+        "timestamp": "10/26/2024, 5:57:08 AM"
+      },
+      {
+        "from": "JPY",
+        "to": "THB",
+        "rate": 0.222,
+        "amount": "300",
+        "result": "66.60",
+        "fromFlag": "https://flagcdn.com/w320/jp.png",
+        "toFlag": "https://flagcdn.com/w320/th.png",
+        "timestamp": "10/26/2024, 6:02:30 AM"
+      },
+      {
+        "from": "JPY",
+        "to": "THB",
+        "rate": 0.222,
+        "amount": "222",
+        "result": "49.28",
+        "fromFlag": "https://flagcdn.com/w320/jp.png",
+        "toFlag": "https://flagcdn.com/w320/th.png",
+        "timestamp": "10/26/2024, 6:04:52 AM"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "firstName": "test1",
+    "lastName": "test1",
+    "username": "test12",
+    "password": "$2a$10$5YXT4K2f7rxrSwHjfmNmmOmhb0nQPGq.SBpcUxO6gabO9O6dCJa5u",
+    "exchangeHistory": [
+      {
+        "from": "JPY",
+        "to": "THB",
+        "rate": 0.222,
+        "amount": "100",
+        "result": "22.20",
+        "fromFlag": "https://flagcdn.com/w320/jp.png",
+        "toFlag": "https://flagcdn.com/w320/th.png",
+        "timestamp": "10/26/2024, 4:55:47 AM"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "firstName": "test2",
+    "lastName": "test2",
+    "username": "test22",
+    "password": "$2a$10$Pjqnaa.uDPIqCslIFtJ1lObHEJcfUTPANnpTba.AG7XwT926gEaj.",
+    "exchangeHistory": []
+  },
+  {
+    "id": 5,
+    "firstName": "test3",
+    "lastName": "test3",
+    "username": "test33",
+    "password": "$2a$10$wrAlmH.TC0gdglr3jKgqUu3QNiVqTh5u6tOC4ZfYszsJ9wcGMUtde",
+    "exchangeHistory": []
+  },
+  {
+    "id": 6,
+    "firstName": "test4",
+    "lastName": "test4",
+    "username": "test44",
+    "password": "$2a$10$0iBuIN85cJSh/FtggcBgzeyLF/ov1SvzBrjxGPyaRCPPnYQWY.Zqe",
+    "exchangeHistory": []
+  },
+  {
+    "id": 7,
+    "firstName": "test5",
+    "lastName": "test5",
+    "username": "test55",
+    "password": "$2a$10$/Tt1FqJC8LDW6Muf8CzOMuyrYstoOmRTXUHxn1LqluP7Y1CO1.JU2",
+    "exchangeHistory": []
+  },
+  {
+    "id": 8,
+    "firstName": "test6",
+    "lastName": "test6",
+    "username": "test66",
+    "password": "$2a$10$fOX1mj7lwlb9JuMspZzZOO2qdhf2csBujHrSWoHuq./Jgj/gA5SP.",
+    "exchangeHistory": []
+  },
+  {
+    "id": 9,
+    "firstName": "test7",
+    "lastName": "test7",
+    "username": "test77",
+    "password": "$2a$10$Td0eur3JrinTZCjGy.lF0.ob1DMaFAPBpcv6oJwV90mv49E.IiPoe",
+    "exchangeHistory": []
+  },
+  {
+    "id": 10,
+    "firstName": "test8",
+    "lastName": "test8",
+    "username": "test88",
+    "password": "$2a$10$11qSmn.0lAxsD4.uRXKgy.GlhwKPUEbc5/3qb5LvGZqOuLY1RVV5i",
+    "exchangeHistory": [
+      {
+        "from": "JPY",
+        "to": "THB",
+        "rate": 0.222,
+        "amount": "100",
+        "result": "22.20",
+        "fromFlag": "https://flagcdn.com/w320/jp.png",
+        "toFlag": "https://flagcdn.com/w320/th.png",
+        "timestamp": "10/26/2024, 5:12:05 AM"
+      },
+      {
+        "from": "JPY",
+        "to": "THB",
+        "rate": 0.222,
+        "amount": "200",
+        "result": "44.40",
+        "fromFlag": "https://flagcdn.com/w320/jp.png",
+        "toFlag": "https://flagcdn.com/w320/th.png",
+        "timestamp": "10/26/2024, 5:12:08 AM"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "firstName": "test",
+    "lastName": "test",
+    "username": "test",
+    "password": "$2a$10$ME6tAZ4AX5RsYH0ImQwejujeiXGvY4QBVez.4ABr9pQjZPhcyleti",
+    "exchangeHistory": []
   }
 ]

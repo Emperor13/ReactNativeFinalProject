@@ -5,14 +5,11 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const app = express();
 
-
 const PORT = 3000;
 const JWT_SECRET = "your_jwt_secret_key"; 
 const USERS_FILE = "./users.json"; 
 app.use(cors());
 app.use(express.json());
-
-
 
 const readUsersFromFile = () => {
   if (!fs.existsSync(USERS_FILE)) {
@@ -22,11 +19,9 @@ const readUsersFromFile = () => {
   return JSON.parse(data);
 };
 
-
 const writeUsersToFile = (users) => {
   fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
 };
-
 
 const exchangeRates = {
   THB: { 
@@ -67,9 +62,7 @@ app.post("/register", async (req, res) => {
     return res.status(400).json({ message: "Username already exists" });
   }
 
-  
   const hashedPassword = await bcrypt.hash(password, 10);
-
 
   const newUser = {
     id: users.length + 1, 
@@ -77,11 +70,12 @@ app.post("/register", async (req, res) => {
     lastName,
     username,
     password: hashedPassword,
+    exchangeHistory: [],
   };
 
   users.push(newUser);
   writeUsersToFile(users);
-
+  console.log("User registered successfully!");
   res.json({ message: "User registered successfully" });
 });
 
@@ -115,8 +109,8 @@ app.post("/login", async (req, res) => {
     expiresIn: "1h",
   });
   console.log("Generated token:", token);
-  
-  res.json({ message: "Login successful", token });
+
+  res.json({ message: "Login successful", token, exchangeHistory: user.exchangeHistory });
 });
 
 
@@ -141,6 +135,92 @@ app.get("/convert", (req, res) => {
     amount: parseFloat(amount),
     convertedAmount,
   });
+});
+
+// เพิ่มประวัติการแลกเปลี่ยน
+app.post("/exchange", (req, res) => {
+  const { username, from, to, rate, amount, result, fromFlag, toFlag, timestamp } = req.body;
+
+  const users = readUsersFromFile();
+  const user = users.find((user) => user.username === username);
+
+  if (!user) {
+    return res.status(400).json({ message: "User not found" });
+  }
+
+  const exchangeRecord = {
+    from,
+    to,
+    rate,
+    amount,
+    result,
+    fromFlag: fromFlag || "",
+    toFlag: toFlag || "",
+    timestamp: timestamp || new Date().toISOString(),
+  };
+
+  user.exchangeHistory.push(exchangeRecord);
+  writeUsersToFile(users);
+  console.log("Exchange record added:", exchangeRecord);
+
+  res.json({ message: "Exchange record added", exchangeRecord });
+});
+
+app.get("/exchange-history/:username", (req, res) => {
+  const { username } = req.params;
+
+  const users = readUsersFromFile();
+  const user = users.find((user) => user.username === username);
+
+  if (!user) {
+    return res.status(400).json({ message: "User not found" });
+  }
+
+  res.json({ exchangeHistory: user.exchangeHistory || [] });
+});
+
+app.delete("/exchange-history/:username", (req, res) => {
+  const { username } = req.params;
+
+  const users = readUsersFromFile();
+  const user = users.find((user) => user.username === username);
+
+  if (!user) {
+    return res.status(400).json({ message: "User not found" });
+  }
+
+  // Clear the exchange history
+  user.exchangeHistory = [];
+  writeUsersToFile(users);
+  console.log(`All exchange history deleted for user: ${username}`);
+
+  res.json({ message: "All exchange history deleted" });
+});
+
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) return res.sendStatus(401); 
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403); 
+    req.user = user; 
+    next();
+  });
+};
+
+app.get("/profile", authenticateToken, (req, res) => {
+  const users = readUsersFromFile();
+  const user = users.find((user) => user.id === req.user.id);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const { id, firstName, lastName, username, exchangeHistory } = user;
+  res.json({ id, firstName, lastName, username, exchangeHistory });
+  console.log("Get Profile Success!");
 });
 
 app.listen(PORT, () => {
