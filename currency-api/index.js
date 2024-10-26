@@ -113,30 +113,6 @@ app.post("/login", async (req, res) => {
   res.json({ message: "Login successful", token, exchangeHistory: user.exchangeHistory });
 });
 
-
-app.get("/convert", (req, res) => {
-  const { from, to, amount } = req.query;
-
-  if (
-    !from ||
-    !to ||
-    !amount ||
-    !exchangeRates[from] ||
-    !exchangeRates[from][to]
-  ) {
-    return res.status(400).json({ error: "Invalid query parameters." });
-  }
-
-  const convertedAmount = exchangeRates[from][to] * parseFloat(amount);
-
-  res.json({
-    from,
-    to,
-    amount: parseFloat(amount),
-    convertedAmount,
-  });
-});
-
 // เพิ่มประวัติการแลกเปลี่ยน
 app.post("/exchange", (req, res) => {
   const { username, from, to, rate, amount, result, fromFlag, toFlag, timestamp } = req.body;
@@ -166,6 +142,7 @@ app.post("/exchange", (req, res) => {
   res.json({ message: "Exchange record added", exchangeRecord });
 });
 
+//ดึงข้อมูลของประวัติที่แลกเปลี่ยนทั้งหมด
 app.get("/exchange-history/:username", (req, res) => {
   const { username } = req.params;
 
@@ -179,6 +156,7 @@ app.get("/exchange-history/:username", (req, res) => {
   res.json({ exchangeHistory: user.exchangeHistory || [] });
 });
 
+//ลบประวัติทั้งหมด
 app.delete("/exchange-history/:username", (req, res) => {
   const { username } = req.params;
 
