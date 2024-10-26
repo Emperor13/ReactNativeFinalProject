@@ -157,5 +157,13 @@
     "username": "apirakza123",
     "password": "$2a$10$bdYToXxu0fg0VJP5sEjpVeOOqmONRiOhaT0ZiY1nOghPzLJKvkWFe",
     "exchangeHistory": []
+  },
+  {
+    "id": 13,
+    "firstName": "Minthada",
+    "lastName": "Lam",
+    "username": "min123",
+    "password": "$2a$10$MiIAoijKs5v893D2qORWEuvkt4Tm5Qk0ZHwCWnYQp5wthZ0WL2fZa",
+    "exchangeHistory": []
   }
 ]

@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const app = express();
 
 const PORT = 3000;
-const JWT_SECRET = "your_jwt_secret_key"; 
 const USERS_FILE = "./users.json"; 
 app.use(cors());
 app.use(express.json());
@@ -21,29 +20,6 @@ const readUsersFromFile = () => {
 
 const writeUsersToFile = (users) => {
   fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-};
-
-const exchangeRates = {
-  THB: { 
-    USD: 0.03,
-    EUR: 0.028,
-    JPY: 3.5,
-  },
-  USD: {
-    THB: 33.0,
-    EUR: 0.94,
-    JPY: 130.0,
-  },
-  EUR: {
-    THB: 35.0,
-    USD: 1.06,
-    JPY: 138.0,
-  },
-  JPY: {
-    THB: 0.29,
-    USD: 0.0077,
-    EUR: 0.0072,
-  },
 };
 
 // Register API
