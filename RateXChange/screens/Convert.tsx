@@ -196,10 +196,10 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
       const res = await getExchangeHistory(user);
       const exchangeHistory = res.data.exchangeHistory || [];
       setHistory(exchangeHistory);
-      console.log("History retrieve successfully . . .");
+      //console.log("History retrieve successfully . . .");
     } catch (error) {
-      console.log("username: ", user);
-      console.log("Failed to get history from file . . .");
+      //console.log("username: ", user);
+      //console.log("Failed to get history from file . . .");
       console.error(error);
     }
   };

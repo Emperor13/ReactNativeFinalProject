@@ -34,7 +34,6 @@ export async function login(username: string, password: string) {
     });
 
     //save token to storage
-
     const token = res.data.token;
     await AsyncStorage.setItem("@token", token);
     await AsyncStorage.setItem("@username", username);
@@ -59,18 +58,17 @@ export async function logout() {
 
 export async function getProfile() {
   const tokenString = await AsyncStorage.getItem("@token");
-  // if no token
+
   if (!tokenString) {
     return null;
   }
 
-  //if token exist
-  const token = JSON.parse(tokenString);
-  console.log("Token:", token);
+  const token = tokenString;
+  //console.log("Token:", token);
   const res = await http.get("http://172.20.10.6:3000/profile", {
     headers: { Authorization: "Bearer " + token },
   });
 
-  console.log("Get Profile Successfully!!");
+  //console.log("Get Profile Successfully!!");
   return res;
 }

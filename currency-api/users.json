@@ -15,14 +15,24 @@
     "password": "$2a$10$I3K9bTohOtUIQfG9aGvT8utRvWSNbT6riirCiOjJqrLbExcjxFaUu",
     "exchangeHistory": [
       {
-        "from": "JPY",
+        "from": "COP",
         "to": "THB",
-        "rate": 0.222,
-        "amount": "1000",
-        "result": "222.00",
-        "fromFlag": "https://flagcdn.com/w320/jp.png",
+        "rate": 0.00781,
+        "amount": "2500",
+        "result": "19.52",
+        "fromFlag": "https://flagcdn.com/w320/co.png",
         "toFlag": "https://flagcdn.com/w320/th.png",
-        "timestamp": "10/26/2024, 5:34:55 AM"
+        "timestamp": "10/26/2024, 8:58:19 AM"
+      },
+      {
+        "from": "THB",
+        "to": "COP",
+        "rate": 127.97,
+        "amount": "200",
+        "result": "25594.00",
+        "fromFlag": "https://flagcdn.com/w320/th.png",
+        "toFlag": "https://flagcdn.com/w320/co.png",
+        "timestamp": "10/26/2024, 8:58:28 AM"
       },
       {
         "from": "JPY",
@@ -32,37 +42,7 @@
         "result": "66.60",
         "fromFlag": "https://flagcdn.com/w320/jp.png",
         "toFlag": "https://flagcdn.com/w320/th.png",
-        "timestamp": "10/26/2024, 5:37:08 AM"
-      },
-      {
-        "from": "JPY",
-        "to": "TRY",
-        "rate": 0.226,
-        "amount": "500",
-        "result": "113.00",
-        "fromFlag": "https://flagcdn.com/w320/jp.png",
-        "toFlag": "https://flagcdn.com/w320/tr.png",
-        "timestamp": "10/26/2024, 5:57:08 AM"
-      },
-      {
-        "from": "JPY",
-        "to": "THB",
-        "rate": 0.222,
-        "amount": "300",
-        "result": "66.60",
-        "fromFlag": "https://flagcdn.com/w320/jp.png",
-        "toFlag": "https://flagcdn.com/w320/th.png",
-        "timestamp": "10/26/2024, 6:02:30 AM"
-      },
-      {
-        "from": "JPY",
-        "to": "THB",
-        "rate": 0.222,
-        "amount": "222",
-        "result": "49.28",
-        "fromFlag": "https://flagcdn.com/w320/jp.png",
-        "toFlag": "https://flagcdn.com/w320/th.png",
-        "timestamp": "10/26/2024, 6:04:52 AM"
+        "timestamp": "10/26/2024, 9:05:25 AM"
       }
     ]
   },
@@ -168,6 +148,14 @@
     "lastName": "test",
     "username": "test",
     "password": "$2a$10$ME6tAZ4AX5RsYH0ImQwejujeiXGvY4QBVez.4ABr9pQjZPhcyleti",
+    "exchangeHistory": []
+  },
+  {
+    "id": 12,
+    "firstName": "Apirak",
+    "lastName": "Chimhiran",
+    "username": "apirakza123",
+    "password": "$2a$10$bdYToXxu0fg0VJP5sEjpVeOOqmONRiOhaT0ZiY1nOghPzLJKvkWFe",
     "exchangeHistory": []
   }
 ]

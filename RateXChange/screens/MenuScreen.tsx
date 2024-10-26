@@ -31,7 +31,7 @@ const MenuScreen = ({ navigation }: any): React.JSX.Element => {
 
   useEffect(() => {
     initializeLanguage();
-  }, [language]);
+  }, [language, toggleLanguage]);
 
   const texts = {
     en: {
