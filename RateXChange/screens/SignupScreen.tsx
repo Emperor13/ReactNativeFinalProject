@@ -93,9 +93,10 @@ const SignupScreen = ({ navigation }: any): React.JSX.Element => {
             fontWeight: "bold",
             textAlign: "center",
             padding: 20,
+            color: "#474747"
           }}
         >
-          Welcome Back!
+          Create New Account
         </Text>
         <View style={{ marginLeft: 20, marginRight: 20 }}>
           <Controller
@@ -104,7 +105,7 @@ const SignupScreen = ({ navigation }: any): React.JSX.Element => {
             render={({ field: { onBlur, onChange, value } }) => (
               <Input
                 placeholder="username"
-                leftIcon={{ name: "person" }}
+                leftIcon={{ name: "format-color-text", color: "#474747"}}
                 keyboardType="default"
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -121,7 +122,7 @@ const SignupScreen = ({ navigation }: any): React.JSX.Element => {
             render={({ field: { onBlur, onChange, value } }) => (
               <Input
                 placeholder="lastname"
-                leftIcon={{ name: "person" }}
+                leftIcon={{ name: "format-color-text", color: "#474747" }}
                 keyboardType="default"
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -138,7 +139,7 @@ const SignupScreen = ({ navigation }: any): React.JSX.Element => {
             render={({ field: { onBlur, onChange, value } }) => (
               <Input
                 placeholder="username"
-                leftIcon={{ name: "person" }}
+                leftIcon={{ name: "person", color: "#474747"}}
                 keyboardType="default"
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -156,7 +157,7 @@ const SignupScreen = ({ navigation }: any): React.JSX.Element => {
             render={({ field: { onBlur, onChange, value } }) => (
               <Input
                 placeholder="password"
-                leftIcon={{ name: "key" }}
+                leftIcon={{ name: "key", color: "#474747" }}
                 rightIcon={
                   <Icon
                     name={showPw ? "visibility" : "visibility-off"}

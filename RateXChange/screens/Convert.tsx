@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
+  Pressable,
 } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -28,24 +29,21 @@ import { logout } from "../services/auth-service";
 import { setIsLogin } from "../auth/auth-slice";
 import {
   deleteExchangeHistory,
+  ExchangeHistoryEntry,
   getExchangeHistory,
   setExchangeHistory,
 } from "../services/exchange-service";
 import { useAppDispatch } from "../redux-toolkit/hooks";
-import { getCountries, getExchangeRate } from "../services/currency-service";
-
-interface ExchangeHistoryEntry {
-  from: string;
-  to: string;
-  rate: number;
-  amount: number;
-  result: number;
-  fromFlag?: string;
-  toFlag?: string;
-  timestamp: string;
-}
-
-type CountryOption = { label: string; value: string; flag: string };
+import {
+  CountryOption,
+  getCountries,
+  getExchangeRate,
+} from "../services/currency-service";
+import {
+  Language,
+  loadLanguage,
+  saveLanguage,
+} from "../services/language-service";
 
 const MaterialHeaderButton = (props: any) => (
   // the `props` here come from <Item ... />
@@ -66,6 +64,18 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
   const [exchangeRate, setExchangeRate] = useState<number>(0);
   const [amount, setAmount] = useState<string>("0.00");
   const [history, setHistory] = useState<ExchangeHistoryEntry[]>([]);
+  const [language, setLanguage] = useState<Language>("en");
+
+  const toggleLanguage = async () => {
+    const newLanguage = language === "en" ? "th" : "en";
+    setLanguage(newLanguage);
+    await saveLanguage(newLanguage);
+  };
+
+  const initializeLanguage = async () => {
+    const savedLanguage = await loadLanguage(); // Load saved language
+    setLanguage(savedLanguage);
+  };
 
   const fetchCountries = async () => {
     try {
@@ -79,7 +89,7 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
   const fetchExchangeRate = async () => {
     if (fromCurrency && toCurrency) {
       try {
-        const res = await getExchangeRate(fromCurrency, toCurrency);;
+        const res = await getExchangeRate(fromCurrency, toCurrency);
         setExchangeRate(res);
       } catch (error) {
         console.error("Error fetching exchange rate:", error);
@@ -88,6 +98,7 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
   };
 
   useEffect(() => {
+    initializeLanguage();
     fetchCountries();
   }, []);
 
@@ -95,7 +106,6 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
     fetchExchangeRate();
   }, [fromCurrency, toCurrency]);
 
-  
   const findFlagByCurrency = (currencyCode: string) => {
     const country = countries.find((c) => c.value.includes(currencyCode));
     return country ? country.flag : null;
@@ -116,7 +126,6 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
     setFromCurrency(toCurrency);
     setToCurrency(temp);
   };
-
 
   const addToHistory = async () => {
     try {
@@ -222,20 +231,15 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
       headerRight: () => (
         <>
           <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
-            <Item
-              style={{ marginRight: 10 }}
-              title="logout"
-              iconName="cog"
-              onPress={async () => {
-                await logout();
-                dispatch(setIsLogin(false));
-              }}
-            />
+            <Pressable style={{ marginRight: 10 }} onPress={toggleLanguage}>
+              <Text style={{color: "#f4f4f4", fontWeight: "bold", fontSize: 16}}>TH | EN</Text>
+            </Pressable>
           </HeaderButtons>
           <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
             <Item
               title="logout"
               iconName="logout"
+              color={"#e43131"}
               onPress={async () => {
                 await logout();
                 dispatch(setIsLogin(false));
@@ -245,14 +249,35 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
         </>
       ),
     });
-  }, [navigation]);
+  }, [navigation, toggleLanguage]);
+
+  const texts = {
+    en: {
+      selectCurrency: "Select Currency",
+      convertCurrency: "Convert Currency",
+      history: "History",
+      clearAll: "Clear All",
+      noEx: "No exchange history . . .",
+      time: "Time:",
+    },
+    th: {
+      selectCurrency: "เลือกสกุลเงิน",
+      convertCurrency: "แปลงสกุลเงิน",
+      history: "ประวัติการแลกเปลี่ยน",
+      clearAll: "ล้างทั้งหมด",
+      noEx: "ไม่มีประวัติการแลกเปลี่ยน . . .",
+      time: "เวลา:",
+    },
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <View style={styleCovert.containerTop}>
           <View style={styleCovert.resultRateText}>
-            <Text style={styleCovert.resultText}>Convert Currency</Text>
+            <Text style={styleCovert.resultText}>
+              {texts[language].convertCurrency}
+            </Text>
           </View>
 
           <View style={styleCovert.inputRow}>
@@ -266,7 +291,10 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
               onValueChange={(value) => setFromCurrency(value)}
               items={countries}
               value={fromCurrency}
-              placeholder={{ label: "เลือกสกุลเงิน", value: null }}
+              placeholder={{
+                label: texts[language].selectCurrency,
+                value: null,
+              }}
               style={pickerSelectStyles2}
             />
             <View style={styleCovert.separator} />
@@ -301,7 +329,10 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
               onValueChange={(value) => setToCurrency(value)}
               items={countries}
               value={toCurrency}
-              placeholder={{ label: "เลือกสกุลเงิน", value: null }}
+              placeholder={{
+                label: texts[language].selectCurrency,
+                value: null,
+              }}
               style={pickerSelectStyles2}
             />
             <View style={styleCovert.separator} />
@@ -320,12 +351,16 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
         {/* ส่วนแสดงประวัติการแปลงค่า */}
         <View style={styleCovert.containerBottom}>
           <View style={styleCovert.historyHeader}>
-            <Text style={styleCovert.HistoryText}>History</Text>
+            <Text style={styleCovert.HistoryText}>
+              {texts[language].history}
+            </Text>
             <TouchableOpacity
               onPress={clearHistory}
               style={styleCovert.clearButton}
             >
-              <Text style={styleCovert.clearButtonText}>Clear All</Text>
+              <Text style={styleCovert.clearButtonText}>
+                {texts[language].clearAll}
+              </Text>
             </TouchableOpacity>
           </View>
           <ScrollView style={{ height: 300 }}>
@@ -364,7 +399,7 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
                   <View style={styleCovert.dateInfo}>
                     <Text
                       style={styleCovert.Date}
-                    >{`Time: ${entry.timestamp}`}</Text>
+                    >{`${texts[language].time} ${entry.timestamp}`}</Text>
                   </View>
                 </View>
               ))
@@ -372,8 +407,7 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
               <Text
                 style={{ textAlign: "center", color: "gray", fontSize: 20 }}
               >
-                {" "}
-                No Exchange History . . .
+                {texts[language].noEx}
               </Text>
             )}
           </ScrollView>

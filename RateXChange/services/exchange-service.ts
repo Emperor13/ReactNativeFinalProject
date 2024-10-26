@@ -1,5 +1,15 @@
 import { AxiosResponse } from "axios";
 import { http } from "./http-service";
+export interface ExchangeHistoryEntry {
+    from: string;
+    to: string;
+    rate: number;
+    amount: number;
+    result: number;
+    fromFlag?: string;
+    toFlag?: string;
+    timestamp: string;
+}
 
 export async function setExchangeHistory(
   username: string,

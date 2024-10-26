@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { http } from "./http-service";
 
-type CountryOption = { label: string; value: string; flag: string };
+export type CountryOption = { label: string; value: string; flag: string };
 
 export async function getCountries() {
   try {

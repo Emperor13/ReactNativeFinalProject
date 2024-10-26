@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   Alert,
+  Pressable,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { StyleHome } from "../styles/styles";
@@ -19,6 +20,11 @@ import { logout } from "../services/auth-service";
 import { selectAuthState, setIsLogin } from "../auth/auth-slice";
 import { useAppDispatch, useAppSelector } from "../redux-toolkit/hooks";
 import Toast from "react-native-toast-message";
+import {
+  Language,
+  loadLanguage,
+  saveLanguage,
+} from "../services/language-service";
 
 // กำหนด interface สำหรับข้อมูล
 interface Data {
@@ -105,10 +111,21 @@ const MaterialHeaderButton = (props: any) => (
   />
 );
 
-const HomeScreen = ({ navigation }: any):React.JSX.Element => {
+const HomeScreen = ({ navigation }: any): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const [selectedCategory, setSelectedCategory] = useState<string>("Travel");
-  const { isLogin} = useAppSelector(selectAuthState);
+  const [language, setLanguage] = useState<Language>("en");
+
+  const toggleLanguage = async () => {
+    const newLanguage = language === "en" ? "th" : "en";
+    setLanguage(newLanguage);
+    await saveLanguage(newLanguage);
+  };
+
+  const initializeLanguage = async () => {
+    const savedLanguage = await loadLanguage(); // Load saved language
+    setLanguage(savedLanguage);
+  };
   // เลือกข้อมูลตามหมวดหมู่
   const getDataForCategory = () => {
     switch (selectedCategory) {
@@ -121,6 +138,9 @@ const HomeScreen = ({ navigation }: any):React.JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    initializeLanguage();
+  }, []);
   // กำหนดประเภทให้กับ item
   const renderItem = ({ item }: { item: Data }) => (
     <View style={StyleHome.card}>
@@ -143,58 +163,54 @@ const HomeScreen = ({ navigation }: any):React.JSX.Element => {
             onPress={() => navigation.openDrawer()}
           />
         </HeaderButtons>
-
       ),
       headerRight: () => (
         <>
-            <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
-              <Item style={{marginRight: 10}}
-                title="logout"
-                iconName="cog"
-                onPress={async () => {
+          <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
+            <Pressable style={{ marginRight: 10 }} onPress={toggleLanguage}>
+              <Text style={{color: "#f4f4f4", fontWeight: "bold", fontSize: 16}}>TH | EN</Text>
+            </Pressable>
+          </HeaderButtons>
+          <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
+            <Item
+              title="logout"
+              iconName="logout"
+              color={"#e43131"}
+              onPress={async () => {
+                try {
+                  Toast.show({
+                    type: "success",
+                    text1: "Thank you, See you later!",
+                  });
                   await logout();
                   dispatch(setIsLogin(false));
-                }}
-              />
-            </HeaderButtons>
-            <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
-              <Item
-                title="logout"
-                iconName="logout"
-                onPress={async () => {
-                  try {
-                    Toast.show({ type: "success", text1: "Thank you, See you later!" });
-                    await logout();
-                    dispatch(setIsLogin(false));  
-                  } catch (error) {
-                    console.error("Logout failed: ", error);
-                  }
-                }}
-              />
-            </HeaderButtons>
+                } catch (error) {
+                  console.error("Logout failed: ", error);
+                }
+              }}
+            />
+          </HeaderButtons>
         </>
       ),
     });
-  }, [navigation]);
+  }, [navigation, toggleLanguage]);
 
+  const texts = {
+    en: {
+      convertCurrency: "Convert",
+      travel: "Travel",
+      trend: "Trending Items",
+      activities: "Activities",
+    },
+    th: {
+      convertCurrency: "แปลงสกุลเงิน",
+      travel: "สถานที่ท่องเที่ยว",
+      trend: "สินค้ายอดนิยม",
+      activities: "กิจกรรม",
+    },
+  };
   return (
     <View style={StyleHome.container}>
-      {/* Header 
-      <View style={StyleHome.header}>
-        <Icon name="menu" size={30} color="white" />
-        <Text style={StyleHome.headerTitle}>RateXChange</Text>
-        <View style={StyleHome.headerIcons}>
-          <Icon name="user" type="feather" size={25} color="white" />
-          <Icon
-            name="bell"
-            type="feather"
-            size={25}
-            color="white"
-            style={StyleHome.iconSpacing}
-          />
-        </View>
-      </View>*/}
-
       {/* Logo */}
       <View style={StyleHome.logoContainer}>
         <Image
@@ -212,7 +228,7 @@ const HomeScreen = ({ navigation }: any):React.JSX.Element => {
             navigation.navigate("Convert");
           }}
         >
-          Convert
+          {texts[language].convertCurrency}
         </Text>
       </TouchableOpacity>
 
@@ -224,9 +240,9 @@ const HomeScreen = ({ navigation }: any):React.JSX.Element => {
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
           style={StyleHome.picker}
         >
-          <Picker.Item label="Travel" value="Travel" />
-          <Picker.Item label="Trending Items" value="Trending" />
-          <Picker.Item label="Activities" value="Activities" />
+          <Picker.Item label={texts[language].travel} value="Travel" />
+          <Picker.Item label={texts[language].trend} value="Trending" />
+          <Picker.Item label={texts[language].activities} value="Activities" />
         </Picker>
 
         {/* แสดงข้อมูลตามหมวดหมู่ที่เลือก */}

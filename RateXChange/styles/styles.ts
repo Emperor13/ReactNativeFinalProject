@@ -282,6 +282,7 @@ const styleCovert = StyleSheet.create({
     color: "#0054fc",
     fontWeight: "bold",
     marginBottom: 15,
+    alignContent: "center",
   },
   containerBottom: {
     margin: 20,

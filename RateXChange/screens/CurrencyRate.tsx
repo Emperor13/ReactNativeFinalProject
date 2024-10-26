@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -17,9 +18,8 @@ import { HeaderButton, HeaderButtons, Item } from "react-navigation-header-butto
 import { logout } from "../services/auth-service";
 import { setIsLogin } from "../auth/auth-slice";
 import { useAppDispatch } from "../redux-toolkit/hooks";
-import { getCountries, getExchangeRate } from "../services/currency-service";
-
-type CountryOption = { label: string; value: string; flag: string };
+import { CountryOption, getCountries, getExchangeRate } from "../services/currency-service";
+import { Language, loadLanguage, saveLanguage } from "../services/language-service";
 
 const MaterialHeaderButton = (props: any) => (
   // the `props` here come from <Item ... />
@@ -42,8 +42,19 @@ const CurrencyRate = ({ navigation }: any):React.JSX.Element => {
   const [allRates, setAllRates] = useState<
     { currency: string; rate: number; reversed: boolean }[]
   >([]);
+  const [language, setLanguage] = useState<Language>("en");
 
+  const toggleLanguage = async () => {
+    const newLanguage = language === "en" ? "th" : "en";
+    setLanguage(newLanguage);
+    await saveLanguage(newLanguage); 
+  };
 
+  const initializeLanguage = async () => {
+    const savedLanguage = await loadLanguage(); // Load saved language
+    setLanguage(savedLanguage);
+  };
+  
   const fetchCountries = async () => {
     try {
       const res = await getCountries();
@@ -83,6 +94,7 @@ const CurrencyRate = ({ navigation }: any):React.JSX.Element => {
   };
 
   useEffect(() => {
+    initializeLanguage();
     fetchCountries();
     fetchAllRates();
   }, []);
@@ -119,19 +131,15 @@ const CurrencyRate = ({ navigation }: any):React.JSX.Element => {
       headerRight: () => (
         <>
             <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
-              <Item style={{marginRight: 10}}
-                title="logout"
-                iconName="cog"
-                onPress={async () => {
-                  await logout();
-                  dispatch(setIsLogin(false));
-                }}
-              />
+            <Pressable style={{ marginRight: 10 }} onPress={toggleLanguage}>
+              <Text style={{color: "#f4f4f4", fontWeight: "bold", fontSize: 16}}>TH | EN</Text>
+            </Pressable>
             </HeaderButtons>
             <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
               <Item
                 title="logout"
                 iconName="logout"
+                color={"#e43131"}
                 onPress={async () => {
                   await logout();
                   dispatch(setIsLogin(false));
@@ -141,13 +149,26 @@ const CurrencyRate = ({ navigation }: any):React.JSX.Element => {
         </>
       ),
     });
-  }, [navigation]);
+  }, [navigation, toggleLanguage]);
+
+  const texts = {
+    en: {
+      selectCurrency: "Select Currency",
+      equals: "equals",
+      rateToday: "Rate Today",
+    },
+    th: {
+      selectCurrency: "เลือกสกุลเงิน",
+      equals: "เท่ากับ",
+      rateToday: "อัตราวันนี้",
+    },
+  };
 
   return (
     <>
       <View style={styleCurrencyRate.containerTop}>
         <View style={styleCurrencyRate.resultRateText}>
-          <Text style={styleCurrencyRate.exchangeText}>1 {fromCurrency} equals</Text>
+          <Text style={styleCurrencyRate.exchangeText}>1 {fromCurrency} {texts[language].equals}</Text>
           <Text style={styleCurrencyRate.resultText}>
             {exchangeRate} {toCurrency}
           </Text>
@@ -158,7 +179,7 @@ const CurrencyRate = ({ navigation }: any):React.JSX.Element => {
             style={styleCurrencyRate.input}
             value={amount}
             onChangeText={setAmount}
-            editable={false}
+            
             keyboardType="numeric"
           />
           <View style={styleCurrencyRate.separator} />
@@ -166,7 +187,7 @@ const CurrencyRate = ({ navigation }: any):React.JSX.Element => {
             onValueChange={(value) => setFromCurrency(value)}
             items={countries}
             value={fromCurrency}
-            placeholder={{ label: "เลือกสกุลเงิน", value: null }}
+            placeholder={{ label: texts[language].selectCurrency, value: null }}
             style={pickerSelectStyles}
           />
         </View>
@@ -186,14 +207,14 @@ const CurrencyRate = ({ navigation }: any):React.JSX.Element => {
             onValueChange={(value) => setToCurrency(value)}
             items={countries}
             value={toCurrency}
-            placeholder={{ label: "เลือกสกุลเงิน", value: null }}
+            placeholder={{ label: texts[language].selectCurrency, value: null }}
             style={pickerSelectStyles}
           />
         </View>
       </View>
 
       <View style={styleCurrencyRate.containerBottom}>
-        <Text style={styleCurrencyRate.rateTodayText}>Rate Today</Text>
+        <Text style={styleCurrencyRate.rateTodayText}>{texts[language].rateToday}</Text>
         <ScrollView style={{ height: 340 }}>
           {Array.isArray(allRates) &&
             allRates.map((rateData, index) => {
