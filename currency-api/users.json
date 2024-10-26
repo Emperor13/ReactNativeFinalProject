@@ -165,5 +165,29 @@
     "username": "min123",
     "password": "$2a$10$MiIAoijKs5v893D2qORWEuvkt4Tm5Qk0ZHwCWnYQp5wthZ0WL2fZa",
     "exchangeHistory": []
+  },
+  {
+    "id": 14,
+    "firstName": "Apirak",
+    "lastName": "Chimhiran",
+    "username": "api2545",
+    "password": "$2a$10$Ai1lPV8H7fVQ40VzkZJy.O01W06ceMFqdgUc8UJWqXkFe2jRmBSc2",
+    "exchangeHistory": []
+  },
+  {
+    "id": 15,
+    "firstName": "test3",
+    "lastName": "test33",
+    "username": "test123123",
+    "password": "$2a$10$li./kpzAAPiWy3YDnkSSdO1dC0ak/VhG1qW3Rcx0B.4JpWph6VX5m",
+    "exchangeHistory": []
+  },
+  {
+    "id": 16,
+    "firstName": "hello",
+    "lastName": "world",
+    "username": "hello123",
+    "password": "$2a$10$r0jU0T18S6yD3/fTt/b22.5dCAeJEgJ1kSCbAldG4iv69FudpJaeC",
+    "exchangeHistory": []
   }
 ]

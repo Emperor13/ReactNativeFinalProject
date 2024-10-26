@@ -57,7 +57,7 @@ const SignupScreen = ({ navigation }: any): React.JSX.Element => {
         Toast.show({ type: "error", text1: err.response.data.message });
       } else {
         Toast.show({
-          type: "Error",
+          type: "error",
           text1: "there was a problem cannot connect to the server",
         });
       }
@@ -104,7 +104,7 @@ const SignupScreen = ({ navigation }: any): React.JSX.Element => {
             control={control}
             render={({ field: { onBlur, onChange, value } }) => (
               <Input
-                placeholder="username"
+                placeholder="first name"
                 leftIcon={{ name: "format-color-text", color: "#474747"}}
                 keyboardType="default"
                 onBlur={onBlur}
@@ -121,7 +121,7 @@ const SignupScreen = ({ navigation }: any): React.JSX.Element => {
             control={control}
             render={({ field: { onBlur, onChange, value } }) => (
               <Input
-                placeholder="lastname"
+                placeholder="last name"
                 leftIcon={{ name: "format-color-text", color: "#474747" }}
                 keyboardType="default"
                 onBlur={onBlur}
