@@ -9,7 +9,7 @@ RateXChange is a final project for ITE-434 Hybrid Application Development. The p
   - ✈️ Recommending places to travel, trending items and activities
   - 🌐 Language Translation (TH,EN)
 
-## Installation
+# 🔧 Installation
 Follow these steps to set up the project on your device:
 1. 📁 **Create an empty folder** where you want to store the project.
 
