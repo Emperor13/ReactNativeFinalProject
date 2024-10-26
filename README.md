@@ -8,7 +8,37 @@ RateXChange is a final project for ITE-434 Hybrid Application Development. The p
   - 💎 Real-Time Currency Rate
   - ✈️ Recommending places to travel, trending items and activities
   - 🌐 Language Translation (TH,EN)
-    
+
+## Installation
+Follow these steps to set up the project on your device:
+1. 📁 **Create an empty folder** where you want to store the project.
+
+2. ⚙️ **Run the Server** using following command.
+```bash
+cd .\currency-api\
+
+node index.js
+```
+3. 📦 **install project dependencies** using following command.
+```bash
+cd .\RateXChange\
+
+npm install
+```
+4. 🛠️ Configure `.env` file based on your connection types.
+  - If you using Cellular | Hotspot, then set IP as follows:
+```bash
+EXPO_SERVER_IP=172.20.10.6
+```
+  - If you using WiFi, then set IP as follows:
+```bash
+EXPO_SERVER_IP=192.168.1.6
+```
+5. 🚀 Start project with following command.
+```bash
+npx expo start -c
+```
+*Be sure to follow each step carefully to ensure proper setup to the project.*
 # Poster
 ![RateXChange](Documents/posterV4.png)
 
