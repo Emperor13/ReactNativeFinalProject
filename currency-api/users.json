@@ -189,5 +189,21 @@
     "username": "hello123",
     "password": "$2a$10$r0jU0T18S6yD3/fTt/b22.5dCAeJEgJ1kSCbAldG4iv69FudpJaeC",
     "exchangeHistory": []
+  },
+  {
+    "id": 17,
+    "firstName": "testLogin",
+    "lastName": "testLogin2",
+    "username": "testLogin1",
+    "password": "$2a$10$CYoubbd31K/tJfn5B6.1EegnOseNYLAn86B1Jg00VaxYWlNkCzoja",
+    "exchangeHistory": []
+  },
+  {
+    "id": 18,
+    "firstName": "testNetwork",
+    "lastName": "netwokr",
+    "username": "net123",
+    "password": "$2a$10$z42tlHH08biy.gqoGA/TiehTEPZVM1ogpPJuqx.7erkployouDqDa",
+    "exchangeHistory": []
   }
 ]

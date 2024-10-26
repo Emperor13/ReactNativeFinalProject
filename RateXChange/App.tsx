@@ -93,7 +93,7 @@ function HomeStackScreen() {
 function App() {
   const { isLogin, isLoading } = useAppSelector(selectAuthState);
   const dispatch = useAppDispatch();
-  console.log("setIsLogin 1: ", isLogin);
+  //console.log("setIsLogin 1: ", isLogin);
   const checkLogin = async () => {
     try {
       dispatch(setIsLogin(true));
@@ -102,7 +102,7 @@ function App() {
         dispatch(setProfile(res.data.data.user));
         console.log("Profile: ", res.data.data.user);
         dispatch(setIsLogin(true));
-        console.log("setIsLogin 2: ", isLogin);
+        //console.log("setIsLogin 2: ", isLogin);
       } else {
         dispatch(setIsLogin(false));
       }

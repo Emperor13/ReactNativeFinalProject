@@ -1,3 +1,4 @@
+import { EXPO_SERVER_IP } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { http } from "./http-service";
 
@@ -9,7 +10,7 @@ export async function register(
 ) {
   console.log("Payload:", { firstName, lastName, username, password });
   try {
-    const res = await http.post("http://172.20.10.6:3000/register", {
+    const res = await http.post(`http://${EXPO_SERVER_IP}:3000/register`, {
       firstName: firstName,
       lastName: lastName,
       username: username,
@@ -27,8 +28,10 @@ export async function register(
 export async function login(username: string, password: string) {
   console.log("Username:", username);
   console.log("Password:", password);
+
+  console.log("EXPO_SERVER_IP: ", EXPO_SERVER_IP);
   try {
-    const res = await http.post("http://172.20.10.6:3000/login", {
+    const res = await http.post(`http://${EXPO_SERVER_IP}:3000/login`, {
       username: username,
       password: password,
     });
@@ -38,15 +41,15 @@ export async function login(username: string, password: string) {
     await AsyncStorage.setItem("@token", token);
     await AsyncStorage.setItem("@username", username);
 
-    const savedToken = await AsyncStorage.getItem("@token");
+    //const savedToken = await AsyncStorage.getItem("@token");
     const savedUsername = await AsyncStorage.getItem("@username");
-    console.log("Saved Token:", savedToken);
+    //console.log("Saved Token:", savedToken);
     console.log("Saved Username: ", savedUsername);
-    console.log("Login Successful!");
+    //console.log("Login Successful!");
     return res;
   } catch (error) {
     console.error("Password Incorrect:");
-    throw error; 
+    throw error;
   }
 }
 
@@ -65,7 +68,7 @@ export async function getProfile() {
 
   const token = tokenString;
   //console.log("Token:", token);
-  const res = await http.get("http://172.20.10.6:3000/profile", {
+  const res = await http.get(`http://${EXPO_SERVER_IP}/profile`, {
     headers: { Authorization: "Bearer " + token },
   });
 

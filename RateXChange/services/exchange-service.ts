@@ -1,3 +1,4 @@
+import { EXPO_SERVER_IP } from "@env";
 import { AxiosResponse } from "axios";
 import { http } from "./http-service";
 export interface ExchangeHistoryEntry {
@@ -23,7 +24,7 @@ export async function setExchangeHistory(
   timestamp: string
 ): Promise<AxiosResponse<any>> {
   try {
-    const res = await http.post("http://172.20.10.6:3000/exchange", {
+    const res = await http.post(`http://${EXPO_SERVER_IP}:3000/exchange`, {
       username: username,
       from: from,
       to: to,
@@ -43,7 +44,7 @@ export async function setExchangeHistory(
 export async function getExchangeHistory(username: string) {
   try {
     const res = await http.get(
-      `http://172.20.10.6:3000/exchange-history/${username}`
+      `http://${EXPO_SERVER_IP}:3000/exchange-history/${username}`
     );
     return res;
   } catch (error) {
@@ -55,7 +56,7 @@ export async function getExchangeHistory(username: string) {
 export async function deleteExchangeHistory(username: string) {
   try {
     const res = await http.delete(
-      `http://172.20.10.6:3000/exchange-history/${username}`
+      `http://${EXPO_SERVER_IP}/exchange-history/${username}`
     );
     return res;
   } catch (error) {

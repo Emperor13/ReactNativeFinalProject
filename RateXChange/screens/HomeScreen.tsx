@@ -5,7 +5,6 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
-  Alert,
   Pressable,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
@@ -17,8 +16,8 @@ import {
 } from "react-navigation-header-buttons";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { logout } from "../services/auth-service";
-import { selectAuthState, setIsLogin } from "../auth/auth-slice";
-import { useAppDispatch, useAppSelector } from "../redux-toolkit/hooks";
+import { setIsLogin } from "../auth/auth-slice";
+import { useAppDispatch } from "../redux-toolkit/hooks";
 import Toast from "react-native-toast-message";
 import {
   Language,
@@ -141,6 +140,7 @@ const HomeScreen = ({ navigation }: any): React.JSX.Element => {
   useEffect(() => {
     initializeLanguage();
   }, []);
+  
   // กำหนดประเภทให้กับ item
   const renderItem = ({ item }: { item: Data }) => (
     <View style={StyleHome.card}>
