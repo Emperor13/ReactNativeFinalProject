@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from "react-native";
+import { Pressable, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { Text, Card, Input, Button, Icon, Image } from "@rneui/base";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,7 +11,8 @@ import { useState } from "react";
 import { setIsLogin } from "../auth/auth-slice";
 import { useAppDispatch } from "../redux-toolkit/hooks";
 
-const LoginScreen = (): React.JSX.Element => {
+
+const LoginScreen = ({ navigation }: any): React.JSX.Element => {
   const [showPw, setshowPw] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -39,7 +40,7 @@ const LoginScreen = (): React.JSX.Element => {
       const response = await login(data.username, data.password);
       if (response.status === 200) {
         dispatch(setIsLogin(true));
-        Toast.show({ type: "success", text1: "Login Successful!" });
+        Toast.show({ type: "success", text1: "Login Successful!", });
         console.log("Login successful!");
       }
     } catch (error: any) {
@@ -48,8 +49,8 @@ const LoginScreen = (): React.JSX.Element => {
         Toast.show({ type: "error", text1: err.response.data.message });
       } else {
         Toast.show({
-          type: "Error",
-          text1: "there was a problem cannot connect to the server",
+          type: "error",
+          text1: "Username or Password Incorrect!",
         });
       }
     }
@@ -84,9 +85,10 @@ const LoginScreen = (): React.JSX.Element => {
             fontWeight: "bold",
             textAlign: "center",
             padding: 20,
+            color: "#474747",
           }}
         >
-          Welcome Back!
+          Welcome
         </Text>
 
         <View style={{ marginLeft: 20, marginRight: 20 }}>
@@ -96,12 +98,13 @@ const LoginScreen = (): React.JSX.Element => {
             render={({ field: { onBlur, onChange, value } }) => (
               <Input
                 placeholder="username"
-                leftIcon={{ name: "person" }}
+                leftIcon={{ name: "person" , color: "#474747",}}
                 keyboardType="default"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
                 errorMessage={errors.username?.message}
+                style={{color: "#474747",}}
               />
             )}
           />
@@ -114,12 +117,13 @@ const LoginScreen = (): React.JSX.Element => {
             render={({ field: { onBlur, onChange, value } }) => (
               <Input
                 placeholder="password"
-                leftIcon={{ name: "key" }}
+                leftIcon={{ name: "key" , color: "#474747",}}
                 rightIcon={
                   <Icon
                     name={showPw ? "visibility" : "visibility-off"}
                     type="feature"
                     onPress={() => setshowPw(!showPw)}
+                    style={{color: "#474747",}}
                   />
                 }
                 keyboardType="default"
@@ -128,6 +132,7 @@ const LoginScreen = (): React.JSX.Element => {
                 onChangeText={onChange}
                 value={value}
                 errorMessage={errors.password?.message}
+                style={{color: "#474747",}}
               />
             )}
           />
@@ -156,11 +161,11 @@ const LoginScreen = (): React.JSX.Element => {
         >
           <View style={{ flexDirection: "row", marginTop: 15 }}>
             <Text style={{ color: "gray" }}>Don't have an account? </Text>
-            <TouchableOpacity>
+            <Pressable onPress={() => navigation.navigate("SignUpScreen")}>
               <Text style={{ color: "#00A3FF", fontWeight: "bold" }}>
                 SIGN UP
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </View>
       </Card>

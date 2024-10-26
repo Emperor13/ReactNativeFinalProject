@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   Image,
   TouchableOpacity,
   FlatList,
+  Alert,
 } from "react-native";
-import { Icon } from "@rneui/base";
 import { Picker } from "@react-native-picker/picker";
 import { StyleHome } from "../styles/styles";
+import {
+  HeaderButton,
+  HeaderButtons,
+  Item,
+} from "react-navigation-header-buttons";
+import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import { logout } from "../services/auth-service";
+import { selectAuthState, setIsLogin } from "../auth/auth-slice";
+import { useAppDispatch, useAppSelector } from "../redux-toolkit/hooks";
+import Toast from "react-native-toast-message";
 
 // กำหนด interface สำหรับข้อมูล
 interface Data {
@@ -85,9 +94,21 @@ const activityData: Data[] = [
   },
 ];
 
-const HomeScreen: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("Travel");
+const MaterialHeaderButton = (props: any) => (
+  // the `props` here come from <Item ... />
+  // you may access them and pass something else to `HeaderButton` if you like
+  <HeaderButton
+    IconComponent={MaterialIcon}
+    iconSize={23}
+    color={"white"}
+    {...props}
+  />
+);
 
+const HomeScreen = ({ navigation }: any):React.JSX.Element => {
+  const dispatch = useAppDispatch();
+  const [selectedCategory, setSelectedCategory] = useState<string>("Travel");
+  const { isLogin} = useAppSelector(selectAuthState);
   // เลือกข้อมูลตามหมวดหมู่
   const getDataForCategory = () => {
     switch (selectedCategory) {
@@ -111,9 +132,54 @@ const HomeScreen: React.FC = () => {
     </View>
   );
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "",
+      headerLeft: () => (
+        <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
+          <Item
+            title="menu"
+            iconName="menu"
+            onPress={() => navigation.openDrawer()}
+          />
+        </HeaderButtons>
+
+      ),
+      headerRight: () => (
+        <>
+            <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
+              <Item style={{marginRight: 10}}
+                title="logout"
+                iconName="cog"
+                onPress={async () => {
+                  await logout();
+                  dispatch(setIsLogin(false));
+                }}
+              />
+            </HeaderButtons>
+            <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
+              <Item
+                title="logout"
+                iconName="logout"
+                onPress={async () => {
+                  try {
+                    Toast.show({ type: "success", text1: "Thank you, See you later!" });
+                    await logout();
+                    dispatch(setIsLogin(false));  
+                  } catch (error) {
+                    console.error("Logout failed: ", error);
+                  }
+                }}
+              />
+            </HeaderButtons>
+        </>
+      ),
+    });
+  }, [navigation]);
+
   return (
     <View style={StyleHome.container}>
-      {/* Header */}
+      {/* Header 
       <View style={StyleHome.header}>
         <Icon name="menu" size={30} color="white" />
         <Text style={StyleHome.headerTitle}>RateXChange</Text>
@@ -127,17 +193,27 @@ const HomeScreen: React.FC = () => {
             style={StyleHome.iconSpacing}
           />
         </View>
-      </View>
+      </View>*/}
 
       {/* Logo */}
       <View style={StyleHome.logoContainer}>
-      <Image source={require("../assets/Logo.png")} style={StyleHome.logoImage} />
-      <Text style={StyleHome.logoText}>RateXChange</Text>
+        <Image
+          source={require("../assets/logo.png")}
+          style={StyleHome.logoImage}
+        />
+        <Text style={StyleHome.logoText}>RateXChange</Text>
       </View>
 
       {/* Convert Button */}
       <TouchableOpacity style={StyleHome.convertButton}>
-        <Text style={StyleHome.convertButtonText}>Convert</Text>
+        <Text
+          style={StyleHome.convertButtonText}
+          onPress={() => {
+            navigation.navigate("Convert");
+          }}
+        >
+          Convert
+        </Text>
       </TouchableOpacity>
 
       {/* Travel Section */}

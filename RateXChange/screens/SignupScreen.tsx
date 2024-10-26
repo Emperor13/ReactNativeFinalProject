@@ -12,7 +12,7 @@ import { useState } from "react";
 import { setIsLogin } from "../auth/auth-slice";
 import { useAppDispatch } from "../redux-toolkit/hooks";
 
-const SignupScreen = (): React.JSX.Element => {
+const SignupScreen = ({ navigation }: any): React.JSX.Element => {
   const [showPw, setshowPw] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -25,8 +25,6 @@ const SignupScreen = (): React.JSX.Element => {
       .string()
       .required("Please input your PassWord")
       .min(6, "Password must be at least 6 characters"),
-    
-      
   });
   //2apply w/ reacthookform
   const {
@@ -40,13 +38,18 @@ const SignupScreen = (): React.JSX.Element => {
 
   //create on Register
   const onRegister = async (data: any) => {
-    console.log("onRegister pressed!!");
+    //console.log("onRegister pressed!!");
     try {
-      const response = await register(data.firstName, data.lastName, data.username, data.password);
+      const response = await register(
+        data.firstName,
+        data.lastName,
+        data.username,
+        data.password
+      );
       if (response.status === 200) {
-        dispatch(setIsLogin(true));
-        Toast.show({ type: "success", text1: "Register Successful!" });
-        console.log("Register successful!");
+        dispatch(setIsLogin(false));
+        Toast.show({ type: "success", text1: "Register Successful! Please Login!" });
+        navigation.navigate("LoginScreen");
       }
     } catch (error: any) {
       let err: AxiosError<any> = error;
@@ -195,7 +198,9 @@ const SignupScreen = (): React.JSX.Element => {
         >
           <View style={{ flexDirection: "row", marginTop: 15 }}>
             <Text style={{ color: "gray" }}>Have an account? </Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("LoginScreen")}
+            >
               <Text style={{ color: "#00A3FF", fontWeight: "bold" }}>
                 SIGN IN
               </Text>

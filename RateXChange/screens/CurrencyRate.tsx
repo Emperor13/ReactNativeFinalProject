@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   View,
   Text,
@@ -12,17 +12,29 @@ import RNPickerSelect from "react-native-picker-select";
 import Icon from "react-native-vector-icons/Ionicons";
 import axios from "axios";
 import { styleCurrencyRate, pickerSelectStyles } from "../styles/styles";
-
-// ติดตั้ง 2 อย่างนี้เพื่อใช้ Dropdown กับ Icon
-// npm install react-native-picker-select
-// npm install react-native-vector-icons
+import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import { HeaderButton, HeaderButtons, Item } from "react-navigation-header-buttons";
+import { logout } from "../services/auth-service";
+import { setIsLogin } from "../auth/auth-slice";
+import { useAppDispatch } from "../redux-toolkit/hooks";
+import { getCountries, getExchangeRate } from "../services/currency-service";
 
 type CountryOption = { label: string; value: string; flag: string };
 
-const CurrencyRate = () => {
-  const [countries, setCountries] = useState<
-    { label: string; value: string; flag: string }[]
-  >([]);
+const MaterialHeaderButton = (props: any) => (
+  // the `props` here come from <Item ... />
+  // you may access them and pass something else to `HeaderButton` if you like
+  <HeaderButton
+    IconComponent={MaterialIcon}
+    iconSize={23}
+    color={"white"}
+    {...props}
+  />
+);
+
+const CurrencyRate = ({ navigation }: any):React.JSX.Element => {
+  const dispatch = useAppDispatch();
+  const [countries, setCountries] = useState<CountryOption[]>([]);
   const [fromCurrency, setFromCurrency] = useState<string>("JPY");
   const [toCurrency, setToCurrency] = useState<string>("THB");
   const [exchangeRate, setExchangeRate] = useState<number | null>(null);
@@ -31,68 +43,53 @@ const CurrencyRate = () => {
     { currency: string; rate: number; reversed: boolean }[]
   >([]);
 
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await axios.get("https://restcountries.com/v3.1/all");
-        const countryData = response.data.map((country: any) => ({
-          label: `${country.name.common} (${Object.keys(
-            country.currencies || {}
-          ).join(", ")})`,
-          value: Object.keys(country.currencies || {}).join(", "),
-          flag: country.flags.png,
-        }));
-        const sortedCountries = countryData.sort(
-          (a: CountryOption, b: CountryOption) => a.label.localeCompare(b.label)
-        );
-        setCountries(sortedCountries);
-      } catch (error) {
-        console.error("Error fetching countries:", error);
-      }
-    };
 
+  const fetchCountries = async () => {
+    try {
+      const res = await getCountries();
+      setCountries(res);
+    } catch (error) {
+      console.error("Error fetching countries:", error);
+    }
+  };
+
+  const fetchExchangeRate = async () => {
+    if (fromCurrency && toCurrency) {
+      try {
+        const res = await getExchangeRate(fromCurrency, toCurrency)
+        setExchangeRate(res);
+      } catch (error) {
+        console.error("Error fetching exchange rate:", error);
+      }
+    }
+  };
+
+  const fetchAllRates = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.exchangerate-api.com/v4/latest/THB`
+      );
+      // setAllRates(response.data.rates);
+      const rates = response.data.rates;
+      const rateArray = Object.keys(rates).map((currency) => ({
+        currency,
+        rate: rates[currency],
+        reversed: false,
+      }));
+      setAllRates(rateArray);
+    } catch (error) {
+      console.error("Error fetching all rates:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchCountries();
-  }, []);
-
-  useEffect(() => {
-    const fetchExchangeRate = async () => {
-      if (fromCurrency && toCurrency) {
-        try {
-          const response = await axios.get(
-            `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`
-          );
-          const rate = response.data.rates[toCurrency];
-          setExchangeRate(rate);
-        } catch (error) {
-          console.error("Error fetching exchange rate:", error);
-        }
-      }
-    };
-
-    fetchExchangeRate();
-  }, [fromCurrency, toCurrency]);
-
-  useEffect(() => {
-    const fetchAllRates = async () => {
-      try {
-        const response = await axios.get(
-          `https://api.exchangerate-api.com/v4/latest/THB`
-        );
-        // setAllRates(response.data.rates);
-        const rates = response.data.rates;
-        const rateArray = Object.keys(rates).map((currency) => ({
-          currency,
-          rate: rates[currency],
-          reversed: false,
-        }));
-        setAllRates(rateArray);
-      } catch (error) {
-        console.error("Error fetching all rates:", error);
-      }
-    };
-
     fetchAllRates();
   }, []);
+
+  useEffect(() => {
+    fetchExchangeRate();
+  }, [fromCurrency, toCurrency]);
 
   const findFlagByCurrency = (currencyCode: string) => {
     const country = countries.find((c) => c.value.includes(currencyCode));
@@ -106,6 +103,45 @@ const CurrencyRate = () => {
       )
     );
   };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "",
+      headerLeft: () => (
+        <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
+          <Item
+            title="menu"
+            iconName="menu"
+            onPress={() => navigation.openDrawer()}
+          />
+        </HeaderButtons>
+      ),
+      headerRight: () => (
+        <>
+            <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
+              <Item style={{marginRight: 10}}
+                title="logout"
+                iconName="cog"
+                onPress={async () => {
+                  await logout();
+                  dispatch(setIsLogin(false));
+                }}
+              />
+            </HeaderButtons>
+            <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
+              <Item
+                title="logout"
+                iconName="logout"
+                onPress={async () => {
+                  await logout();
+                  dispatch(setIsLogin(false));
+                }}
+              />
+            </HeaderButtons>
+        </>
+      ),
+    });
+  }, [navigation]);
 
   return (
     <>
@@ -122,6 +158,7 @@ const CurrencyRate = () => {
             style={styleCurrencyRate.input}
             value={amount}
             onChangeText={setAmount}
+            editable={false}
             keyboardType="numeric"
           />
           <View style={styleCurrencyRate.separator} />
@@ -157,7 +194,7 @@ const CurrencyRate = () => {
 
       <View style={styleCurrencyRate.containerBottom}>
         <Text style={styleCurrencyRate.rateTodayText}>Rate Today</Text>
-        <ScrollView>
+        <ScrollView style={{ height: 340 }}>
           {Array.isArray(allRates) &&
             allRates.map((rateData, index) => {
               const { currency, rate, reversed } = rateData;

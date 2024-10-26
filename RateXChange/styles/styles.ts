@@ -5,12 +5,11 @@ const StyleHome = StyleSheet.create({
     width: 150,
     height: 150,
     resizeMode: "contain", // ป้องกันการบิดเบี้ยวของรูป
-    marginRight: 7
+    marginRight: 7,
   },
   container: {
     flex: 1,
     backgroundColor: "#4A90E2",
-    paddingTop: 50,
   },
   header: {
     flexDirection: "row",
@@ -96,9 +95,11 @@ const StyleHome = StyleSheet.create({
 const styleCurrencyRate = StyleSheet.create({
   containerTop: {
     backgroundColor: "#4A90E2",
-    padding: 20,
+    paddingLeft: 20,
+    paddingRight:20,
     height: "40%",
-    borderRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   exchangeText: {
     fontSize: 18,
@@ -162,7 +163,6 @@ const styleCurrencyRate = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 15,
-    borderRadius: 20,
     borderColor: "#ccc",
     borderWidth: 0.5,
     padding: 15,
@@ -233,8 +233,9 @@ const styleCovert = StyleSheet.create({
   containerTop: {
     backgroundColor: "#4A90E2",
     padding: 20,
-    height: "40%",
-    borderRadius: 15,
+    height: "45%",
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   exchangeText: {
     fontSize: 18,
@@ -294,7 +295,6 @@ const styleCovert = StyleSheet.create({
   historyRow: {
     backgroundColor: "#fff",
     marginBottom: 15,
-    borderRadius: 20,
     borderColor: "#ccc",
     borderWidth: 0.5,
     padding: 15,
@@ -422,4 +422,10 @@ const pickerSelectStyles2 = {
   },
 };
 
-export { StyleHome, styleCurrencyRate, pickerSelectStyles, styleCovert, pickerSelectStyles2 };
+export {
+  StyleHome,
+  styleCurrencyRate,
+  pickerSelectStyles,
+  styleCovert,
+  pickerSelectStyles2,
+};
