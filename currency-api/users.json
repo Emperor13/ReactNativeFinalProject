@@ -15,26 +15,6 @@
     "password": "$2a$10$I3K9bTohOtUIQfG9aGvT8utRvWSNbT6riirCiOjJqrLbExcjxFaUu",
     "exchangeHistory": [
       {
-        "from": "COP",
-        "to": "THB",
-        "rate": 0.00781,
-        "amount": "2500",
-        "result": "19.52",
-        "fromFlag": "https://flagcdn.com/w320/co.png",
-        "toFlag": "https://flagcdn.com/w320/th.png",
-        "timestamp": "10/26/2024, 8:58:19 AM"
-      },
-      {
-        "from": "THB",
-        "to": "COP",
-        "rate": 127.97,
-        "amount": "200",
-        "result": "25594.00",
-        "fromFlag": "https://flagcdn.com/w320/th.png",
-        "toFlag": "https://flagcdn.com/w320/co.png",
-        "timestamp": "10/26/2024, 8:58:28 AM"
-      },
-      {
         "from": "JPY",
         "to": "THB",
         "rate": 0.222,
@@ -42,7 +22,7 @@
         "result": "66.60",
         "fromFlag": "https://flagcdn.com/w320/jp.png",
         "toFlag": "https://flagcdn.com/w320/th.png",
-        "timestamp": "10/26/2024, 9:05:25 AM"
+        "timestamp": "10/27/2024, 10:07:21 PM"
       }
     ]
   },
@@ -204,6 +184,14 @@
     "lastName": "netwokr",
     "username": "net123",
     "password": "$2a$10$z42tlHH08biy.gqoGA/TiehTEPZVM1ogpPJuqx.7erkployouDqDa",
+    "exchangeHistory": []
+  },
+  {
+    "id": 19,
+    "firstName": "api123",
+    "lastName": "api123",
+    "username": "api11223333",
+    "password": "$2a$10$.CvkcriZNV3rgqj5m.AWNesAQDeaqUVPFMz1XtOEeP/BfLmbTo62W",
     "exchangeHistory": []
   }
 ]

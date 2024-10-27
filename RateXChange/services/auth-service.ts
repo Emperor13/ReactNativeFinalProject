@@ -20,7 +20,7 @@ export async function register(
     console.log("Register Successful!");
     return res;
   } catch (error: any) {
-    console.error("Error: ", error.response.data.message);
+    //console.error("Error: ", error.response.data.message);
     throw error;
   }
 }
@@ -48,7 +48,7 @@ export async function login(username: string, password: string) {
     //console.log("Login Successful!");
     return res;
   } catch (error) {
-    console.error("Password Incorrect:");
+    //console.error("Password Incorrect:");
     throw error;
   }
 }

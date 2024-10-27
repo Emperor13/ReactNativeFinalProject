@@ -65,6 +65,7 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
   const [amount, setAmount] = useState<string>("0.00");
   const [history, setHistory] = useState<ExchangeHistoryEntry[]>([]);
   const [language, setLanguage] = useState<Language>("en");
+  const [user, setUser] = useState<string | null>("");
 
   const toggleLanguage = async () => {
     const newLanguage = language === "en" ? "th" : "en";
@@ -134,7 +135,6 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
         const timestamp = new Date().toLocaleString();
         const fromFlag = findFlagByCurrency(fromCurrency);
         const toFlag = findFlagByCurrency(toCurrency);
-        const user = await AsyncStorage.getItem("@username");
 
         if (!user) {
           throw new Error("No user found in storage.");
@@ -165,22 +165,31 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
     }
   };
 
-  const clearHistory = async () => {
+  const getUser = async () => {
     const user = await AsyncStorage.getItem("@username");
+    //console.log("User data:", user);
+    setUser(user);
+  };
+
+  const clearHistory = async () => {
+    //console.log("User: ", user);
     if (!user) {
       throw new Error("No user found in storage.");
     }
     try {
-      const response = await deleteExchangeHistory(user);
-      //console.log("Exchange history deleted:", response.data);
-      Toast.show({ type: "success", text1: "History Successfully Deleted!" });
-      await getHistory();
+      if (history.length <= 0) {
+        Toast.show({ type: "error", text1: "No data to delete . . ." });
+      } else {
+        const res = await deleteExchangeHistory(user);
+        console.log("Exchange history deleted:", res.data);
+        await getHistory();
+      }
     } catch (error) {
       Toast.show({
         type: "error",
         text1: "Failed to delete history, please try again . . .",
       });
-      //console.error("Error deleting exchange history:", error);
+      console.error("Error deleting exchange history:", error);
     }
   };
 
@@ -213,6 +222,7 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
   };
 
   useEffect(() => {
+    getUser();
     getHistory();
   }, []);
 
@@ -232,7 +242,11 @@ const Convert = ({ navigation }: any): React.JSX.Element => {
         <>
           <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
             <Pressable style={{ marginRight: 10 }} onPress={toggleLanguage}>
-              <Text style={{color: "#f4f4f4", fontWeight: "bold", fontSize: 16}}>TH | EN</Text>
+              <Text
+                style={{ color: "#f4f4f4", fontWeight: "bold", fontSize: 16 }}
+              >
+                TH | EN
+              </Text>
             </Pressable>
           </HeaderButtons>
           <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>

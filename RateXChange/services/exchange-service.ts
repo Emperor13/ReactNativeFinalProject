@@ -56,8 +56,9 @@ export async function getExchangeHistory(username: string) {
 export async function deleteExchangeHistory(username: string) {
   try {
     const res = await http.delete(
-      `http://${EXPO_SERVER_IP}/exchange-history/${username}`
+      `http://${EXPO_SERVER_IP}:3000/exchange-history/${username}`
     );
+    console.log("History deleted!!");
     return res;
   } catch (error) {
     console.error("Failed to delete exchange history:", error);

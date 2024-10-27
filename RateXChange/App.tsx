@@ -96,7 +96,6 @@ function App() {
   //console.log("setIsLogin 1: ", isLogin);
   const checkLogin = async () => {
     try {
-      dispatch(setIsLogin(true));
       const res = await getProfile();
       if (res?.data.data.user) {
         dispatch(setProfile(res.data.data.user));

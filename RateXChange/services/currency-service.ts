@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import { http } from "./http-service";
 
 export type CountryOption = { label: string; value: string; flag: string };
