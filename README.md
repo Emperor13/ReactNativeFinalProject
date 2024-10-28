@@ -34,13 +34,18 @@ EXPO_SERVER_IP=172.20.10.6
 ```bash
 EXPO_SERVER_IP=192.168.1.6
 ```
+  - If not working try set IP base on expo server ip:
+  ***Example*** If ***Metro waiting on exp://192.168.20.6:8081***
+```bash
+EXPO_SERVER_IP=192.168.20.6
+```
 5. 🚀 Start project with following command.
 ```bash
 npx expo start -c
 ```
 *Be sure to follow each step carefully to ensure proper setup to the project.*
 # Poster
-![RateXChange](Documents/posterV4.png)
+![RateXChange](Documents/phase3/RateXChange_Poster.png)
 
 # 🤝 Contributors
 <table align="center">
