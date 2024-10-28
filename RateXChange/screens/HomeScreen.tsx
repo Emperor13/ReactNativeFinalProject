@@ -140,7 +140,7 @@ const HomeScreen = ({ navigation }: any): React.JSX.Element => {
   useEffect(() => {
     initializeLanguage();
   }, []);
-  
+
   // กำหนดประเภทให้กับ item
   const renderItem = ({ item }: { item: Data }) => (
     <View style={StyleHome.card}>
@@ -168,7 +168,11 @@ const HomeScreen = ({ navigation }: any): React.JSX.Element => {
         <>
           <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
             <Pressable style={{ marginRight: 10 }} onPress={toggleLanguage}>
-              <Text style={{color: "#f4f4f4", fontWeight: "bold", fontSize: 16}}>TH | EN</Text>
+              <Text
+                style={{ color: "#f4f4f4", fontWeight: "bold", fontSize: 16 }}
+              >
+                TH | EN
+              </Text>
             </Pressable>
           </HeaderButtons>
           <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
