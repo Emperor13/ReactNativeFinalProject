@@ -45,7 +45,7 @@ npx expo start -c
 ```
 *Be sure to follow each step carefully to ensure proper setup to the project.*
 # Poster
-![RateXChange](Documents/phase3/RateXChange_Poster.png)
+![RateXChange](Documents/Phase%203/RateXChange_Poster.png)
 
 # 🤝 Contributors
 <table align="center">
